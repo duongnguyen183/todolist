@@ -13,6 +13,7 @@ export default function List({
   handleGetIdTask,
   handleUpdateName,
   handleUpdateSave,
+  handleUpdatelevel,
   handleCancelUpdate
 }) {
   return (
@@ -49,6 +50,7 @@ export default function List({
                   handleGetIdTask={handleGetIdTask}
                   handleUpdateName={handleUpdateName}
                   handleUpdateSave={handleUpdateSave}
+                  handleUpdatelevel={handleUpdatelevel}
                   handleCancelUpdate={handleCancelUpdate}
                 />
               );

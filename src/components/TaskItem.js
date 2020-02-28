@@ -12,6 +12,7 @@ export default function TaskIem({
   handleGetIdTask,
   handleUpdateName,
   handleUpdateSave,
+  handleUpdatelevel,
   handleCancelUpdate
 }) {
   return (
@@ -31,6 +32,7 @@ export default function TaskIem({
           <td className='text-center'>
             <select
               defaultValue={task.level}
+              onChange={handleUpdatelevel}
               className='form-control'
               required='required'
             >
@@ -76,10 +78,15 @@ export default function TaskIem({
               Edit
             </button>
             <button
-              onClick={handleDelete}
+              // onClick={handleDelete}
+              onClick={e => {
+                if (
+                  window.confirm('Are you sure you wish to delete this item?')
+                )
+                  handleDelete(task.id);
+              }}
               type='button'
               className='btn btn-danger'
-              value={task.id}
             >
               Delete
             </button>

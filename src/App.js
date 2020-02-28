@@ -20,6 +20,7 @@ import { v4 as uuidv4 } from 'uuid';
 function App() {
   const [name, setName] = useState('');
   const [level, setLevel] = useState(0);
+  const [toggleForm, setToggleForm] = useState(false);
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [updateTaskId, setUpdateTaskId] = useState('');
   const [updateTaskName, setUpdateTaskName] = useState('');
@@ -56,6 +57,10 @@ function App() {
     setLevel(0);
   };
 
+  const handleToogleForm = () => {
+    setToggleForm(!toggleForm);
+  };
+
   //Update Task
   const handleGetIdTask = evt => {
     const idtask = evt.target.getAttribute('idtask');
@@ -64,6 +69,9 @@ function App() {
 
   const handleUpdateName = evt => {
     setUpdateTaskName(evt.target.value);
+  };
+  const handleUpdatelevel = evt => {
+    setUpdateTaskLevel(evt.target.value);
   };
 
   const handleUpdateSave = evt => {
@@ -87,25 +95,24 @@ function App() {
   };
 
   // Delete Task
-  const handleDelete = evt => {
+  const handleDelete = taskId => {
     var removeTask = taskList
       .map(function(item) {
         return item.id;
       })
-      .indexOf(evt.target.value);
+      .indexOf(taskId);
 
     ~removeTask && taskList.splice(removeTask, 1);
     setTaskList([...taskList]);
   };
-
-  //List Task
 
   // Search Task
   const handleChangeSearch = evt => {
     setInputSearchl(evt.target.value);
     var textToSearch = evt.target.value;
     var filteredArray = taskList.filter(task => {
-      return task.name.toLowerCase().indexOf(textToSearch.toLowerCase()) >= 0;
+      // return task.name.toLowerCase().indexOf(textToSearch.toLowerCase()) >= 0;
+      return task.name.toLowerCase().indexOf(textToSearch.toLowerCase()) > -1;
     });
     setTaskList(filteredArray);
     if (evt.target.value === '') {
@@ -173,15 +180,20 @@ function App() {
           </Row>
         </Col>
         <Col md={12} lg={6}>
-          <AddTask />
-          <Form
-            name={name}
-            level={level}
-            handelCancel={handelCancel}
-            handleSubmit={handleSubmit}
-            handleChangeName={handleChangeName}
-            handleChangeLevel={handleChangeLevel}
-          />
+          <AddTask handleToogleForm={handleToogleForm} />
+          {toggleForm ? (
+            <Form
+              name={name}
+              level={level}
+              toggleForm={toggleForm}
+              handelCancel={handelCancel}
+              handleSubmit={handleSubmit}
+              handleChangeName={handleChangeName}
+              handleChangeLevel={handleChangeLevel}
+            />
+          ) : (
+            ''
+          )}
         </Col>
       </Row>
       <List
@@ -191,10 +203,11 @@ function App() {
         handleDelete={handleDelete}
         isFormVisible={isFormVisible}
         handleShowForm={handleShowForm}
-        handleGetIdTask={handleGetIdTask}
         updateTaskName={updateTaskName}
-        handleUpdateName={handleUpdateName}
+        handleGetIdTask={handleGetIdTask}
         handleUpdateSave={handleUpdateSave}
+        handleUpdateName={handleUpdateName}
+        handleUpdatelevel={handleUpdatelevel}
         handleCancelUpdate={handleCancelUpdate}
       />
     </Container>
